@@ -1,0 +1,136 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#13121F;--fg:#F4EFE6;--muted:#ABA6BD;--acc:#E0663A;--gold:#F7B267;--cta:#C24E26;--d:'Syne',sans-serif;--b:'Manrope',sans-serif;--m:'IBM Plex Mono',monospace}
+html,body{width:1080px;height:1920px;overflow:hidden;background:var(--bg);color:var(--fg);font-family:var(--b);-webkit-font-smoothing:antialiased}
+#stage{position:absolute;inset:0;overflow:hidden}
+.floor{position:absolute;left:0;right:0;top:1330px;bottom:0;background:linear-gradient(#17162A,#100F1B)}
+.spot{position:absolute;left:50%;top:1390px;width:900px;height:260px;margin-left:-450px;border-radius:50%;background:radial-gradient(closest-side,rgba(247,178,103,.16),transparent)}
+#grain{position:absolute;inset:0;opacity:.06;mix-blend-mode:overlay;z-index:30}
+.brand{position:absolute;left:80px;top:150px;display:flex;align-items:center;gap:14px;font:500 24px/1 var(--m);letter-spacing:.24em;color:var(--muted);z-index:20}
+.brand img{width:46px;height:46px;border-radius:50%;object-fit:cover;border:1.5px solid rgba(247,178,103,.5)}
+#title{position:absolute;left:80px;top:250px;font:800 60px/1 var(--d);white-space:nowrap;letter-spacing:-.04em;z-index:20}
+#title small{display:block;font:500 26px/1 var(--m);letter-spacing:.22em;color:var(--gold);margin-bottom:22px;text-transform:uppercase}
+.grad{background:linear-gradient(180deg,#FFF4E6 0%,#F7B267 55%,#E0663A 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+/* box */
+#box{position:absolute;left:240px;top:1190px;width:600px;height:400px;z-index:5}
+.inside{position:absolute;left:0;right:0;top:-40px;height:110px;background:linear-gradient(#0A0912,#1B1A2E);clip-path:polygon(6% 0,94% 0,100% 100%,0 100%);opacity:0}
+.light{position:absolute;left:50%;top:-560px;width:700px;height:640px;margin-left:-350px;background:radial-gradient(60% 70% at 50% 100%,rgba(255,214,150,.55),rgba(247,178,103,.18) 45%,transparent 70%);opacity:0;filter:blur(6px)}
+.front{position:absolute;left:0;right:0;top:40px;bottom:0;background:linear-gradient(160deg,#262441,#18172A 60%,#121120);border-radius:10px;box-shadow:0 60px 80px -30px rgba(0,0,0,.8),inset 0 2px 0 rgba(244,239,230,.08)}
+.front .rib{position:absolute;left:50%;top:0;bottom:0;width:70px;margin-left:-35px;background:linear-gradient(90deg,#B24420,#E0663A 50%,#B24420)}
+.front .emb{position:absolute;left:50%;top:50%;width:150px;height:150px;margin:-75px 0 0 -75px;border-radius:50%;object-fit:cover;opacity:.9;border:3px solid rgba(247,178,103,.45);box-shadow:0 0 0 10px rgba(19,18,31,.6)}
+#lid{position:absolute;left:-14px;right:-14px;top:-26px;height:90px;transform-origin:50% 100%;z-index:6}
+#lid .top{position:absolute;inset:0;background:linear-gradient(#34315A,#232140);clip-path:polygon(5% 0,95% 0,100% 100%,0 100%);border-radius:8px}
+#lid .rib{position:absolute;left:50%;top:0;bottom:0;width:76px;margin-left:-38px;background:linear-gradient(90deg,#B24420,#E0663A 50%,#B24420)}
+#bow{position:absolute;left:50%;top:-58px;width:220px;height:90px;margin-left:-110px}
+#bow i{position:absolute;top:10px;width:100px;height:70px;border:16px solid #E0663A;border-radius:50% 50% 50% 50%/60% 60% 40% 40%}
+#bow i:first-child{left:0;transform:rotate(-14deg)}#bow i:last-child{right:0;transform:rotate(14deg)}
+#tape{position:absolute;left:-30px;right:-30px;top:44px;height:30px;background:rgba(244,239,230,.28);transform-origin:left center;z-index:7}
+/* item cards */
+.item{position:absolute;left:140px;top:570px;width:800px;height:400px;border-radius:40px;background:#1C1B32;border:1.5px solid rgba(247,178,103,.28);box-shadow:0 50px 100px -30px rgba(0,0,0,.8),0 0 80px -20px rgba(224,102,58,.35);opacity:0;z-index:10;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.lab{position:absolute;left:80px;right:80px;top:1010px;text-align:center;font:800 54px/1.12 var(--d);letter-spacing:-.03em;opacity:0;z-index:10}
+.lab small{display:block;font:500 24px/1 var(--m);letter-spacing:.22em;color:var(--gold);margin-bottom:16px}
+.urlbar{width:660px;height:120px;border-radius:60px;background:#262441;display:flex;align-items:center;gap:24px;padding:0 44px;font:500 44px/1 var(--m)}
+.sw{display:flex;gap:18px}.sw i{width:96px;height:96px;border-radius:24px}
+.spec{font:800 150px/1 var(--d);letter-spacing:-.05em;margin-right:40px}
+.ph{width:230px;height:370px;border-radius:36px;border:8px solid #2E2C4C;overflow:hidden;margin-top:70px;box-shadow:0 30px 60px rgba(0,0,0,.6)}
+.ph img{width:100%;display:block}
+.wa{display:flex;align-items:center;gap:22px;padding:34px 60px;border-radius:999px;background:#1FAF57;font:700 46px/1 var(--b);color:#fff}
+.map{position:relative;width:640px;height:300px;border-radius:26px;overflow:hidden;background:#232140}
+.map .road{position:absolute;background:#2F2D50}
+.map .pin{position:absolute;left:300px;top:70px;width:70px;height:70px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:var(--acc);box-shadow:0 0 40px rgba(224,102,58,.7)}
+.map .pin::after{content:"";position:absolute;left:23px;top:23px;width:24px;height:24px;border-radius:50%;background:#1C1B32}
+.map .res{position:absolute;left:30px;right:30px;bottom:26px;height:70px;border-radius:16px;background:#F4EFE6;color:#1C1A2B;display:flex;align-items:center;gap:16px;padding:0 24px;font:700 30px/1 var(--b)}
+.map .res b{color:#C24E26;font:500 24px/1 var(--m)}
+/* chips row */
+#chips{position:absolute;left:80px;top:465px;display:flex;gap:16px;z-index:15}
+.chip{width:72px;height:72px;border-radius:50%;background:#1C1B32;border:2px solid rgba(247,178,103,.5);display:grid;place-items:center;opacity:0}
+/* final */
+#final{position:absolute;left:0;right:0;top:0;bottom:0;z-index:12;opacity:0}
+#bigphone{position:absolute;left:50%;top:430px;width:420px;height:860px;margin-left:-210px;border-radius:64px;border:12px solid #2E2C4C;overflow:hidden;box-shadow:0 60px 120px -20px rgba(0,0,0,.9),0 0 120px -30px rgba(224,102,58,.5)}
+#bigphone img{width:100%;display:block}
+#label{position:absolute;left:620px;top:1200px;width:380px;background:#F4EFE6;color:#1C1A2B;border-radius:18px;padding:28px 30px;transform:rotate(6deg);box-shadow:0 30px 60px rgba(0,0,0,.6);z-index:13;opacity:0}
+#label .k{font:600 20px/1 var(--m);letter-spacing:.2em;color:#8A8296}
+#label .v{font:800 40px/1.05 var(--d);letter-spacing:-.02em;margin:8px 0 18px}
+#label .bar{height:52px;background:repeating-linear-gradient(90deg,#1C1A2B 0 4px,transparent 4px 9px,#1C1A2B 9px 11px,transparent 11px 17px)}
+#cta{position:absolute;left:80px;width:520px;top:1340px;font:800 64px/1.05 var(--d);letter-spacing:-.035em;z-index:14;opacity:0}
+#cta small{display:block;font:500 28px/1 var(--m);letter-spacing:.18em;color:var(--gold);margin-top:22px}
+</style></head><body><div id="stage">
+<div class="floor"></div><div class="spot"></div>
+<div class="brand"><img src="__FOX__" alt="">NEXO WEB</div>
+<div id="title"><small>Unboxing</small>O que vem dentro<br>de um <span class="grad">site da NEXO</span></div>
+<div id="chips">
+  <div class="chip"><svg width="30" height="34" viewBox="0 0 40 46"><rect x="4" y="20" width="32" height="24" rx="6" fill="#F7B267"/><path d="M11 20v-6a9 9 0 0 1 18 0v6" fill="none" stroke="#F7B267" stroke-width="5"/></svg></div>
+  <div class="chip"><svg width="34" height="34" viewBox="0 0 34 34"><circle cx="11" cy="11" r="8" fill="#E0663A"/><circle cx="23" cy="11" r="8" fill="#F7B267"/><circle cx="17" cy="22" r="8" fill="#F4EFE6"/></svg></div>
+  <div class="chip"><svg width="22" height="36" viewBox="0 0 22 36"><rect x="2" y="2" width="18" height="32" rx="4" fill="none" stroke="#F7B267" stroke-width="3"/></svg></div>
+  <div class="chip"><svg width="34" height="34" viewBox="0 0 24 24" fill="#1FAF57"><path d="M12 2a10 10 0 0 0-8.7 14.9L2 22l5.2-1.4A10 10 0 1 0 12 2z"/></svg></div>
+  <div class="chip"><svg width="30" height="36" viewBox="0 0 24 30"><path d="M12 1a9 9 0 0 0-9 9c0 7 9 18 9 18s9-11 9-18a9 9 0 0 0-9-9z" fill="#E0663A"/><circle cx="12" cy="10" r="3.5" fill="#1C1B32"/></svg></div>
+</div>
+
+<div id="box">
+  <div class="light" id="light"></div>
+  <div class="inside" id="inside"></div>
+  <div class="front"><div class="rib"></div><img class="emb" src="__FOX__" alt=""></div>
+  <div id="lid"><div class="top"></div><div class="rib"></div><div id="bow"><i></i><i></i></div></div>
+  <div id="tape"></div>
+</div>
+
+<div class="item" id="i1"><div class="urlbar"><svg width="40" height="46" viewBox="0 0 40 46"><rect x="4" y="20" width="32" height="24" rx="6" fill="#F7B267"/><path d="M11 20v-6a9 9 0 0 1 18 0v6" fill="none" stroke="#F7B267" stroke-width="5"/></svg>suaempresa.com.br</div></div>
+<div class="lab" id="l1"><small>Item 1</small>Domínio + cadeado<br>de segurança</div>
+<div class="item" id="i2"><span class="spec grad">Aa</span><div class="sw"><i style="background:#13121F;border:2px solid #3A3858"></i><i style="background:#E0663A"></i><i style="background:#F7B267"></i><i style="background:#F4EFE6"></i></div></div>
+<div class="lab" id="l2"><small>Item 2</small>Design exclusivo,<br>com a sua cara</div>
+<div class="item" id="i3"><div class="ph"><img src="__SITE__" alt=""></div></div>
+<div class="lab" id="l3"><small>Item 3</small>Versão para celular</div>
+<div class="item" id="i4"><div class="wa" id="wa"><svg width="54" height="54" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 0 0-8.7 14.9L2 22l5.2-1.4A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.4-.7-2.8-1.1-4.6-4-4.8-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2.1 1-2.4c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.3 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.6.2.3.7 1.2 1.6 2 1.1 1 2 1.3 2.3 1.4.3.1.4.1.6-.1l.8-1c.2-.3.4-.2.6-.1l2 .9c.3.1.5.2.5.3.1.2.1.7-.1 1.2z"/></svg>Chamar no WhatsApp</div></div>
+<div class="lab" id="l4"><small>Item 4</small>Botão de WhatsApp</div>
+<div class="item" id="i5"><div class="map"><i class="road" style="left:0;right:0;top:120px;height:26px"></i><i class="road" style="left:200px;top:0;bottom:0;width:22px"></i><i class="road" style="left:470px;top:0;bottom:0;width:18px"></i><i class="pin"></i><div class="res"><span>Sua empresa</span><b>· aberto agora</b></div></div></div>
+<div class="lab" id="l5"><small>Item 5</small>Google configurado</div>
+
+<div id="final"><div id="bigphone"><img src="__SITE__" alt=""></div></div>
+<div id="label"><div class="k">PARA</div><div class="v">Sua empresa</div><div class="k">DE</div><div class="v" style="font-size:30px">NEXO WEB · Brasília</div><div class="bar"></div></div>
+<div id="cta">Peça<br>o seu.<small>LINK NA BIO · @NEXO.WEB.B</small></div>
+<canvas id="grain" width="540" height="960"></canvas>
+</div>
+<script>
+const $ = (id) => document.getElementById(id);
+const cl = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const ease = (x) => 1 - Math.pow(1 - cl(x), 3);
+const easeIO = (x) => { x = cl(x); return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; };
+const back = (x) => { x = cl(x); const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
+const P = (t, a, d) => cl((t - a) / d);
+const ITEMS = [3.6, 6.4, 9.2, 12.0, 14.8]; const SLOT = 2.8; const FINAL = 17.6;
+const g = $('grain').getContext('2d'); const img = g.createImageData(540, 960);
+let seed = 3; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+const noise = []; for (let k = 0; k < 4; k++) { const d = new Uint8ClampedArray(540 * 960 * 4); for (let i = 0; i < d.length; i += 4) { const v = rnd() * 255; d[i] = d[i + 1] = d[i + 2] = v; d[i + 3] = 255; } noise.push(d); }
+window.seek = (t) => {
+  // title in
+  const tp = back(P(t, .15, .6)); $('title').style.opacity = cl(P(t, .15, .3)); $('title').style.transform = `translateY(${(1 - tp) * 50}px)`;
+  $('title').style.opacity = cl(P(t, .15, .3)) * (1 - P(t, FINAL - .3, .4));
+  // box: drop in, tape pull (1.4-2.4), lid open (2.6-3.4), box slides down + fades at final
+  const bin = back(P(t, 0, .7)); const boxFade = 1 - P(t, FINAL - .2, .5);
+  $('box').style.transform = `translateY(${(1 - bin) * -300 + easeIO(P(t, FINAL - .2, .6)) * 300}px)`; $('box').style.opacity = cl(P(t, 0, .2)) * boxFade;
+  const tape = easeIO(P(t, 1.4, .9)); $('tape').style.transform = `scaleX(${1 - tape})`; $('tape').style.transformOrigin = 'right center';
+  const lid = easeIO(P(t, 2.6, .8));
+  $('lid').style.transform = `translate(${lid * 360}px, ${-lid * 240}px) rotate(${lid * 38}deg)`; $('lid').style.opacity = 1 - P(t, 3.2, .4);
+  $('inside').style.opacity = lid; $('light').style.opacity = lid * (.75 + .25 * Math.sin(t * 3));
+  // items
+  ITEMS.forEach((s, k) => {
+    const it = $('i' + (k + 1)), lb = $('l' + (k + 1));
+    const up = back(P(t, s, .7)); /* rises from the box */ const out = easeIO(P(t, s + SLOT - .45, .45));
+    const vis = t >= s && t < s + SLOT + .1;
+    it.style.opacity = vis ? cl(P(t, s, .2)) * (1 - out) : 0;
+    it.style.transform = `translateY(${(1 - up) * 560 - out * 260}px) scale(${.35 + .65 * up - out * .55})`;
+    lb.style.opacity = vis ? cl(P(t, s + .35, .3)) * (1 - out) : 0; lb.style.transform = `translateY(${(1 - ease(P(t, s + .35, .4))) * 30}px)`;
+    const ch = document.querySelectorAll('.chip')[k]; const cp = back(P(t, s + SLOT - .2, .45));
+    ch.style.opacity = cl(P(t, s + SLOT - .2, .2)) * (1 - P(t, FINAL, .4)); ch.style.transform = `scale(${cp})`;
+  });
+  $('wa').style.transform = `scale(${1 + .04 * Math.sin(Math.max(0, t - 12.6) * 7)})`;
+  // final: phone with the real site, shipping label, CTA
+  const fp = back(P(t, FINAL, .8)); $('final').style.opacity = cl(P(t, FINAL, .3));
+  $('bigphone').style.transform = `translateY(${(1 - fp) * 400}px) scale(${.85 + .15 * fp})`;
+  $('bigphone').querySelector('img').style.transform = `translateY(${-easeIO(P(t, FINAL + 1, 2.4)) * 260}px)`;
+  const lp = P(t, 20.0, .3); $('label').style.opacity = lp > 0 ? 1 : 0; $('label').style.transform = `rotate(6deg) scale(${1.6 - .6 * back(lp)})`;
+  const cp = back(P(t, 20.4, .6)); $('cta').style.opacity = cl(P(t, 20.4, .3)); $('cta').style.transform = `translateY(${(1 - cp) * 40}px)`;
+  img.data.set(noise[Math.floor(t * 24) % 4]); g.putImageData(img, 0, 0);
+};
+window.seek(0);
+</script></body></html>

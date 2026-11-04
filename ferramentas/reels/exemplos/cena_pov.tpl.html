@@ -1,0 +1,139 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#13121F;--fg:#F4EFE6;--muted:#ABA6BD;--acc:#E0663A;--gold:#F7B267;--cta:#C24E26;--d:'Syne',sans-serif;--b:'Manrope',sans-serif;--m:'IBM Plex Mono',monospace}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#0B0A12;font-family:var(--b);-webkit-font-smoothing:antialiased}
+#stage{position:absolute;inset:0;overflow:hidden;background:#1C1C1E}
+/* phone browser chrome */
+#win{position:absolute;inset:0;transform-origin:50% 48%;border-radius:0;overflow:hidden;background:#fff}
+.status{position:absolute;left:0;right:0;top:0;height:110px;background:#F2F2F7;display:flex;align-items:flex-end;justify-content:space-between;padding:0 64px 18px;font:600 38px/1 -apple-system,'Manrope',sans-serif;color:#111;z-index:3}
+.status i{display:inline-block;width:56px;height:26px;border:3px solid #111;border-radius:8px;position:relative}
+.status i::after{content:"";position:absolute;inset:3px 14px 3px 3px;background:#111;border-radius:3px}
+.addr{position:absolute;left:0;right:0;top:110px;height:120px;background:#F2F2F7;border-bottom:2px solid #D8D8DE;display:flex;align-items:center;justify-content:center;z-index:3}
+.addr div{width:900px;height:84px;border-radius:22px;background:#E4E4EA;display:flex;align-items:center;justify-content:center;gap:14px;font:500 36px/1 -apple-system,'Manrope',sans-serif;color:#333}
+#loadbar{position:absolute;left:0;top:228px;height:6px;background:#0A84FF;z-index:4;width:0}
+#view{position:absolute;left:0;right:0;top:230px;bottom:0;overflow:hidden;background:#fff}
+#spinner{position:absolute;left:50%;top:44%;width:110px;height:110px;margin:-55px 0 0 -55px;border-radius:50%;border:12px solid #E4E4EA;border-top-color:#8E8E93}
+/* the "sobrinho" site (fictional, deliberately dated) */
+#old{position:absolute;left:0;right:0;top:0;height:3000px;opacity:0;font-family:'DejaVu Serif','Times New Roman',serif;color:#000;
+ background:#FFF6A8 repeating-linear-gradient(45deg,rgba(255,0,180,.12) 0 18px,rgba(0,170,255,.10) 18px 36px)}
+.o-head{background:linear-gradient(#0000CC,#3333FF);color:#FFFF00;text-align:center;padding:34px 20px 26px;border-bottom:8px ridge #C0C0C0}
+.o-head h1{font:bold 70px/1 'DejaVu Serif',serif;text-shadow:5px 5px 0 #FF0000,10px 10px 0 #00AA00;letter-spacing:2px}
+.o-head p{font:italic 34px/1.3 'DejaVu Serif',serif;color:#fff;margin-top:12px}
+.marq{background:#000;color:#00FF00;font:bold 38px/64px 'DejaVu Sans Mono',monospace;white-space:nowrap;overflow:hidden;height:64px;position:relative}
+.marq span{position:absolute;left:0;top:0}
+.o-body{padding:36px 46px}
+.o-nav{display:flex;gap:24px;justify-content:center;margin-bottom:30px;font:bold 34px/1 'DejaVu Serif',serif}
+.o-nav a{color:#0000EE;text-decoration:underline}
+.o-nav a.vis{color:#551A8B}
+.novo{display:inline-block;background:#FF0000;color:#FFFF00;font:bold 30px/1 'DejaVu Sans',sans-serif;padding:8px 14px;transform:rotate(-8deg);margin-left:16px}
+.o-img{width:100%;height:520px;border:10px outset #C0C0C0;background:
+  linear-gradient(#F8C8DC 0 0) 50% 64%/58% 26% no-repeat, linear-gradient(#FFFFFF 0 0) 50% 44%/50% 12% no-repeat,
+  linear-gradient(#F8C8DC 0 0) 50% 38%/42% 20% no-repeat, linear-gradient(#EE2222 0 0) 50% 24%/4% 9% no-repeat, #9AD0F5;image-rendering:pixelated;filter:contrast(1.2) saturate(1.4)}
+.o-txt{font:40px/1.35 'DejaVu Serif',serif;margin:30px 0;text-align:center}
+.o-txt b{color:#FF0000}
+.counter{margin:30px auto;width:max-content;font:bold 34px/1 'DejaVu Sans Mono',monospace;background:#000;color:#FF3333;padding:16px 22px;border:6px inset #888}
+.contact{margin:30px 0;border:6px double #0000CC;background:#fff;padding:30px;font:36px/1.5 'DejaVu Serif',serif;opacity:0}
+.foot{margin-top:120px;text-align:center;font:32px/1.6 'DejaVu Serif',serif}
+.obra{display:inline-block;background:repeating-linear-gradient(45deg,#000 0 30px,#FFD400 30px 60px);padding:18px;margin-bottom:20px}
+.obra span{display:block;background:#FFD400;font:bold 46px/1.2 'DejaVu Sans',sans-serif;padding:14px 28px}
+#tap{position:absolute;width:120px;height:120px;border-radius:50%;background:rgba(120,120,120,.35);border:4px solid rgba(255,255,255,.9);opacity:0;z-index:6;margin:-60px 0 0 -60px}
+/* app switcher */
+#switch{position:absolute;inset:0;background:#1C1C1E;opacity:0}
+#empty{position:absolute;left:0;right:0;top:46%;text-align:center;font:600 46px/1.3 -apple-system,'Manrope',sans-serif;color:#8E8E93;opacity:0}
+/* POV caption (Instagram text style) */
+#cap{position:absolute;left:80px;right:150px;top:1250px;z-index:10;display:flex;justify-content:center}
+#cap div{background:#fff;color:#000;font:800 50px/1.22 'Manrope',sans-serif;padding:20px 28px;border-radius:18px;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,.25);max-width:860px}
+/* end card */
+#end{position:absolute;inset:0;background:var(--bg);opacity:0;z-index:12}
+#end .grid{position:absolute;inset:0;background:linear-gradient(rgba(244,239,230,.035) 1px,transparent 1px) 0 0/90px 90px,linear-gradient(90deg,rgba(244,239,230,.035) 1px,transparent 1px) 0 0/90px 90px}
+#end .glow{position:absolute;inset:0;background:radial-gradient(55% 35% at 25% 40%,rgba(224,102,58,.14),transparent 70%)}
+.e-fox{position:absolute;left:80px;top:470px;width:200px;height:200px;border-radius:50%;object-fit:cover;border:2px solid rgba(247,178,103,.55);box-shadow:0 0 0 16px rgba(224,102,58,.08)}
+.e1{position:absolute;left:80px;top:740px;font:700 50px/1.25 var(--b);color:var(--muted);max-width:880px}
+.e2{position:absolute;left:80px;top:900px;font:800 104px/1 var(--d);letter-spacing:-.045em;color:var(--fg);white-space:nowrap}
+.grad{background:linear-gradient(180deg,#FFF4E6 0%,#F7B267 55%,#E0663A 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.e3{position:absolute;left:80px;top:1170px;font:500 32px/1 var(--m);letter-spacing:.18em;color:var(--gold)}
+#grain{position:absolute;inset:0;opacity:.05;mix-blend-mode:overlay;z-index:20}
+</style></head><body><div id="stage">
+<div id="switch"><div id="empty">Nenhuma aba aberta</div></div>
+<div id="win">
+  <div class="status"><span>19:42</span><span style="display:flex;gap:14px;align-items:center">5G <i></i></span></div>
+  <div class="addr"><div><svg width="26" height="30" viewBox="0 0 26 30"><rect x="2" y="13" width="22" height="16" rx="4" fill="#8E8E93"/><path d="M7 13V9a6 6 0 0 1 12 0v4" fill="none" stroke="#8E8E93" stroke-width="3.5"/></svg>docesdavera.com.br</div></div>
+  <div id="loadbar"></div>
+  <div id="view">
+    <div id="spinner"></div>
+    <div id="old">
+      <div class="o-head"><h1>DOCES DA VERA</h1><p>~ Os melhores doces da região!!! ~</p></div>
+      <div class="marq"><span id="mq">*** SEJAM BEM VINDOS AO NOSSO SITE!!! *** FAÇA SUA ENCOMENDA *** SEJAM BEM VINDOS AO NOSSO SITE!!! ***</span></div>
+      <div class="o-body">
+        <div class="o-nav"><a class="vis">Início</a> | <a>Quem Somos</a> | <a id="fale">Fale Conosco</a><span class="novo" id="novo">NOVO!</span></div>
+        <div class="o-img"></div>
+        <p class="o-txt">Bolos, doces e salgados para <b>TODAS</b> as ocasiões!!!<br>Clique <a style="color:#0000EE;text-decoration:underline">AQUI</a> para ver o cardápio</p>
+        <div class="counter">Você é o visitante nº 000027</div>
+        <div class="contact" id="contact"><b>Fale Conosco:</b><br>E-mail: docesdavera2019@hotmail.com<br>Telefone: (em breve)</div>
+        <div class="foot"><div class="obra"><span>SITE EM CONSTRUÇÃO</span></div><br>© 2019 Doces da Vera<br>Melhor visualizado em 800x600</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="tap"></div>
+<div id="cap"><div id="capt"></div></div>
+<div id="end"><div class="grid"></div><div class="glow"></div>
+  <img class="e-fox" src="__FOX__" alt="">
+  <div class="e1">Sobrinho é pro almoço de domingo.</div>
+  <div class="e2">Site é com<br><span class="grad">a NEXO.</span></div>
+  <div class="e3">@NEXO.WEB.B · LINK NA BIO</div>
+</div>
+<canvas id="grain" width="540" height="960"></canvas>
+</div>
+<script>
+const $ = (id) => document.getElementById(id);
+const cl = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const ease = (x) => 1 - Math.pow(1 - cl(x), 3);
+const easeIO = (x) => { x = cl(x); return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; };
+const back = (x) => { x = cl(x); const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
+const P = (t, a, d) => cl((t - a) / d);
+window.TOTAL = 20.0;
+const CAPS = [
+  [0.0, 3.2, 'POV: o site da sua empresa foi feito pelo sobrinho que “manja de computador”'],
+  [3.2, 6.2, 'Ele disse que ficou “moderno”'],
+  [6.2, 9.4, 'E o WhatsApp? “Ah, isso fica pra versão 2”'],
+  [9.4, 12.6, 'Última atualização: 2019'],
+  [12.6, 15.8, 'O cliente não reclamou. Ele só fechou a aba.'],
+];
+const g = $('grain').getContext('2d'); const img = g.createImageData(540, 960);
+let seed = 11; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+const noise = []; for (let k = 0; k < 4; k++) { const d = new Uint8ClampedArray(540 * 960 * 4); for (let i = 0; i < d.length; i += 4) { const v = rnd() * 255; d[i] = d[i + 1] = d[i + 2] = v; d[i + 3] = 255; } noise.push(d); }
+let lastCap = -2;
+window.seek = (t) => {
+  // loading
+  $('spinner').style.transform = `rotate(${t * 420}deg)`; $('spinner').style.opacity = t < 3.2 ? 1 : 0;
+  $('loadbar').style.width = (t < 3.2 ? 12 + 60 * (1 - Math.exp(-t * .6)) : 100) + '%'; $('loadbar').style.opacity = t < 3.4 ? 1 : 0;
+  $('old').style.opacity = t >= 3.2 ? 1 : 0;
+  $('mq').style.transform = `translateX(${1080 - ((t - 3.2) * 260) % 2800}px)`;
+  $('novo').style.visibility = Math.floor(t * 3) % 2 ? 'hidden' : 'visible';
+  // tap on "Fale Conosco" and contact box
+  const f = $('fale').getBoundingClientRect();
+  const tp = P(t, 6.5, .5); const tap = $('tap'); tap.style.left = (f.left + f.width / 2) + 'px'; tap.style.top = (f.top + f.height / 2) + 'px';
+  tap.style.opacity = tp > 0 && tp < 1 ? (1 - tp) : 0; tap.style.transform = `scale(${.6 + .6 * tp})`;
+  $('contact').style.opacity = t > 6.8 ? 1 : 0;
+  // scroll: to contact (6.8-7.6) then to footer (9.4-10.4)
+  const s1 = easeIO(P(t, 6.8, .8)) * 620, s2 = easeIO(P(t, 9.4, 1.0)) * 520;
+  $('old').style.transform = `translateY(${-(s1 + s2)}px)`;
+  // app switcher + swipe away
+  const sw = easeIO(P(t, 12.9, .7)), up = easeIO(P(t, 14.0, .55));
+  $('switch').style.opacity = t > 12.85 ? 1 : 0;
+  $('win').style.transform = `translateY(${-up * 1700}px) scale(${1 - .38 * sw})`; $('win').style.borderRadius = (sw * 60) + 'px';
+  $('win').style.boxShadow = sw > 0 ? '0 40px 120px rgba(0,0,0,.6)' : 'none';
+  $('empty').style.opacity = ease(P(t, 14.6, .5));
+  // captions (swap instantly, slight pop)
+  const k = CAPS.findIndex(([a, b]) => t >= a && t < b);
+  if (k !== lastCap) { $('capt').textContent = k >= 0 ? CAPS[k][2] : ''; lastCap = k; }
+  $('cap').style.opacity = k >= 0 ? 1 : 0;
+  if (k >= 0) { const pp = back(P(t, CAPS[k][0], .25)); $('cap').style.transform = `scale(${.92 + .08 * pp})`; }
+  // end card
+  const ep = P(t, 15.8, .35); $('end').style.opacity = ep;
+  [['.e-fox', .1], ['.e1', .3], ['.e2', .5], ['.e3', .8]].forEach(([s, d]) => { const e = document.querySelector('#end ' + s); const p = back(P(t, 15.8 + d, .55)); e.style.opacity = cl(P(t, 15.8 + d, .3)); e.style.transform = `translateY(${(1 - p) * 60}px)`; });
+  img.data.set(noise[Math.floor(t * 24) % 4]); g.putImageData(img, 0, 0);
+};
+window.seek(0);
+</script></body></html>
